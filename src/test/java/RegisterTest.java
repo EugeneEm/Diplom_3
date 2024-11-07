@@ -4,10 +4,13 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.html5.LocalStorage;
 import org.openqa.selenium.html5.WebStorage;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.MainPage;
 import pages.SignInPage;
 import pages.SignUpPage;
@@ -42,6 +45,8 @@ public class RegisterTest {
     public void registerNewUser() {
         driver = driverRule.getDriver();
         driver.get(Env.BASE_URL);
+        WebDriverWait wait = new WebDriverWait(driverRule.getDriver(), 3);
+
 
         MainPage mainPage = new MainPage(driverRule.getDriver());
         mainPage.goToLk();
@@ -57,12 +62,8 @@ public class RegisterTest {
         signUpPage.clickRegisterButton();
         signInPage.waitRedirectToLogin();
         signInPage.login(user.getEmail(), user.getPassword());
-        //try-catch ожидание для обхода проблемы на Firefox
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e)  {
-            throw new RuntimeException();
-        }
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
+
         LocalStorage localStorage = ((WebStorage) driver).getLocalStorage();
         accessToken = localStorage.getItem("accessToken");
         System.out.println("Token is : " + accessToken);

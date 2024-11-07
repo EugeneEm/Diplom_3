@@ -4,7 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.MainPage;
 import pages.SignInPage;
 import pages.UserCabinetPage;
@@ -46,23 +49,25 @@ public class GoToScreensTest {
     public void goToCabinet() {
         driver = driverRule.getDriver();
         driver.get(Env.BASE_URL);
+        WebDriverWait wait = new WebDriverWait(driverRule.getDriver(), 3);
+
         MainPage mainPage = new MainPage(driverRule.getDriver());
         mainPage.goToLogin();
 
         SignInPage signInPage = new SignInPage(driverRule.getDriver());
         signInPage.login(user.getEmail(), user.getPassword());
-        //try-catch ожидание для обхода проблемы на Firefox
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e)  {
-            throw new RuntimeException();
-        }
+        //ожидание сокрытия Loader'а для обхода проблемы на Firefox
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
+
         //По редиректу на главную проверяем успешность авторизации
         mainPage.waitRedirectToMain();
         String primaryButtonText = mainPage.getPrimaryButtonText();
         assertEquals("Оформить заказ", primaryButtonText);
 
         mainPage.goToLk();
+        //ожидание сокрытия Loader'а для обхода проблемы на Firefox
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
+
         UserCabinetPage userCabinetPage = new UserCabinetPage(driverRule.getDriver());
         userCabinetPage.getName();
         assertEquals(user.getName(), userCabinetPage.getName());
@@ -74,36 +79,30 @@ public class GoToScreensTest {
     public void goToMainByMenuItem() {
         driver = driverRule.getDriver();
         driver.get(Env.BASE_URL);
+        WebDriverWait wait = new WebDriverWait(driverRule.getDriver(), 3);
+
         MainPage mainPage = new MainPage(driverRule.getDriver());
         mainPage.goToLogin();
 
         SignInPage signInPage = new SignInPage(driverRule.getDriver());
         signInPage.login(user.getEmail(), user.getPassword());
-        //try-catch ожидание для обхода проблемы на Firefox
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e)  {
-            throw new RuntimeException();
-        }
+
+        //ожидание сокрытия Loader'а для обхода проблемы на Firefox
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
+
         mainPage.goToLk();
-        //try-catch ожидание для обхода проблемы на Firefox
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e)  {
-            throw new RuntimeException();
-        }
+        //ожидание сокрытия Loader'а для обхода проблемы на Firefox
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
+
         UserCabinetPage userCabinetPage = new UserCabinetPage(driverRule.getDriver());
         userCabinetPage.getName();
         assertEquals(user.getName(), userCabinetPage.getName());
         assertEquals(user.getEmail(), userCabinetPage.getLogin());
 
         userCabinetPage.clickConstructor();
-//        //try-catch ожидание для обхода проблемы на Firefox
-//        try {
-//            Thread.sleep(10000);
-//        } catch (InterruptedException e)  {
-//            throw new RuntimeException();
-//        }
+        //ожидание сокрытия Loader'а для обхода проблемы на Firefox
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
+
         //Проверяем переход на главную
         mainPage.waitRedirectToMain();
         String primaryButtonText = mainPage.getPrimaryButtonText();
@@ -115,36 +114,30 @@ public class GoToScreensTest {
     public void goToMainByLogo() {
         driver = driverRule.getDriver();
         driver.get(Env.BASE_URL);
+        WebDriverWait wait = new WebDriverWait(driverRule.getDriver(), 3);
+
         MainPage mainPage = new MainPage(driverRule.getDriver());
         mainPage.goToLogin();
 
         SignInPage signInPage = new SignInPage(driverRule.getDriver());
         signInPage.login(user.getEmail(), user.getPassword());
-        //try-catch ожидание для обхода проблемы на Firefox
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e)  {
-            throw new RuntimeException();
-        }
+
+        //ожидание сокрытия Loader'а для обхода проблемы на Firefox
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
+
         mainPage.goToLk();
-        //try-catch ожидание для обхода проблемы на Firefox
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e)  {
-            throw new RuntimeException();
-        }
+        //ожидание сокрытия Loader'а для обхода проблемы на Firefox
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
+
         UserCabinetPage userCabinetPage = new UserCabinetPage(driverRule.getDriver());
         userCabinetPage.getName();
         assertEquals(user.getName(), userCabinetPage.getName());
         assertEquals(user.getEmail(), userCabinetPage.getLogin());
 
         userCabinetPage.clickLogo();
-//        //try-catch ожидание для обхода проблемы на Firefox
-//        try {
-//            Thread.sleep(10000);
-//        } catch (InterruptedException e)  {
-//            throw new RuntimeException();
-//        }
+        //ожидание сокрытия Loader'а для обхода проблемы на Firefox
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
+
         //Проверяем переход на главную
         mainPage.waitRedirectToMain();
         String primaryButtonText = mainPage.getPrimaryButtonText();
@@ -156,30 +149,28 @@ public class GoToScreensTest {
     public void logout() {
         driver = driverRule.getDriver();
         driver.get(Env.BASE_URL);
+        WebDriverWait wait = new WebDriverWait(driverRule.getDriver(), 3);
+
         MainPage mainPage = new MainPage(driverRule.getDriver());
         mainPage.goToLogin();
 
         SignInPage signInPage = new SignInPage(driverRule.getDriver());
         signInPage.login(user.getEmail(), user.getPassword());
-        //try-catch ожидание для обхода проблемы на Firefox
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e)  {
-            throw new RuntimeException();
-        }
+        //ожидание сокрытия Loader'а для обхода проблемы на Firefox
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
+
         mainPage.goToLk();
-        //try-catch ожидание для обхода проблемы на Firefox
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e)  {
-            throw new RuntimeException();
-        }
+        //ожидание сокрытия Loader'а для обхода проблемы на Firefox
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
+
         UserCabinetPage userCabinetPage = new UserCabinetPage(driverRule.getDriver());
         userCabinetPage.getName();
         assertEquals(user.getName(), userCabinetPage.getName());
         assertEquals(user.getEmail(), userCabinetPage.getLogin());
 
         userCabinetPage.clickLogout();
+        //ожидание сокрытия Loader'а для обхода проблемы на Firefox
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'Modal_modal__P3_V5')]")));
 
         //Проверяем переход на главную
         signInPage.waitRedirectToLogin();
